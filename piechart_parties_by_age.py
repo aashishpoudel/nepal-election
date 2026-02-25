@@ -16,7 +16,7 @@ df = pd.read_excel(file_path)
 # -----------------------------
 # 1) Filter by Party
 # -----------------------------
-selected_party = 'राष्ट्रिय स्वतन्त्र पार्टी'   # नेपाल कम्युनिष्ट पार्टी (एकीकृत मार्क्सवादी लेनिनवादी), नेपाली काँग्रेस, नेपाली कम्युनिष्ट पार्टी, राष्ट्रिय स्वतन्त्र पार्टी
+selected_party = 'नेपाली काँग्रेस'   # नेपाल कम्युनिष्ट पार्टी (एकीकृत मार्क्सवादी लेनिनवादी), नेपाली काँग्रेस, नेपाली कम्युनिष्ट पार्टी, राष्ट्रिय स्वतन्त्र पार्टी
 df_filtered = df[df["राजनीतिक दल / स्वतन्त्र"] == selected_party].copy()
 print(f"{PARTIES.keys()}")
 
@@ -105,12 +105,21 @@ def label_fmt(pct, all_vals):
 plt.figure(figsize=(10, 8))
 base_colors = list(plt.get_cmap("tab20").colors)
 
-color_list = []
-for label in age_counts.index:
-    if label == "Not Available":
-        color_list.append("#B0B0B0")  # gray for NA
-    else:
-        color_list.append(base_colors[len(color_list) % len(base_colors)])
+# -----------------------------
+# Fixed Generation Colors (Always Same)
+# -----------------------------
+GENERATION_COLORS = {
+    "Gen Beta (age 0 to 1)": "#E0FFFF",              # Light Cyan
+    "Gen Alpha (age 2 to 13)": "#87CEFA",            # Light Sky Blue
+    "Gen Z (age 14 to 29)": "#20B2AA",               # Light Sea Green
+    "Millennials (Gen Y) (age 30 to 45)": "#FFD700", # Golden Yellow
+    "Gen X (age 46 to 61)": "#FF8C00",               # Dark Orange
+    "Baby Boomers (age 62 to 80)": "#4169E1",        # Royal Blue
+    "Silent Generation (age 81 to 98)": "#4B0082",   # Indigo
+    "Not Available": "#D3D3D3",                      # Light Gray
+}
+
+color_list = [GENERATION_COLORS[label] for label in age_counts.index]
 
 wedges, texts, autotexts = plt.pie(
     age_counts,

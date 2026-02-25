@@ -60,6 +60,27 @@ class NepalElectionDataProcessor:
         print(f"\n--- Columns in table: {table_name} ---")
         self.print_df_as_table(df)
 
+    def age_to_generation(self, age):
+        if age is None:
+            return "Not Available"
+        # Your requested bins:
+        if 0 <= age <= 1:
+            return "Gen Beta (age 0 to 1)"
+        if 2 <= age <= 13:
+            return "Gen Alpha (age 2 to 13)"
+        if 14 <= age <= 29:
+            return "Gen Z (age 14 to 29)"
+        if 30 <= age <= 45:
+            return "Millennials (Gen Y) (age 30 to 45)"
+        if 46 <= age <= 61:
+            return "Gen X (age 46 to 61)"
+        if 62 <= age <= 80:
+            return "Baby Boomers (age 62 to 80)"
+        if 81 <= age <= 98:
+            return "Silent Generation (age 81 to 98)"
+        # Anything outside your defined ranges:
+        return "Not Available"
+
     def get_unique_values(
             self,
             db_path: Path,
@@ -222,5 +243,5 @@ class NepalElectionDataProcessor:
             if len(df) > max_rows:
                 print(f"\n(showing first {max_rows} of {len(df)} rows)")
 
-        
+
 

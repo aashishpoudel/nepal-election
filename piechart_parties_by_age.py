@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from nepal_election_constants import *
+from nepal_election_base import *
 
 # (Optional) Nepali font (only needed if you put Nepali text in chart)
 font_path = "/Library/Fonts/NotoSansDevanagari-Regular.ttf"
@@ -18,7 +19,6 @@ df = pd.read_excel(file_path)
 # -----------------------------
 selected_party = 'नेपाली काँग्रेस'   # नेपाल कम्युनिष्ट पार्टी (एकीकृत मार्क्सवादी लेनिनवादी), नेपाली काँग्रेस, नेपाली कम्युनिष्ट पार्टी, राष्ट्रिय स्वतन्त्र पार्टी
 df_filtered = df[df["राजनीतिक दल / स्वतन्त्र"] == selected_party].copy()
-print(f"{PARTIES.keys()}")
 
 # -----------------------------
 # 2) Build Age Generation Group
@@ -40,26 +40,7 @@ def to_number(x):
     return int(mm.group()) if mm else None
 
 
-def age_to_generation(age):
-    if age is None:
-        return "Not Available"
-    # Your requested bins:
-    if 0 <= age <= 1:
-        return "Gen Beta (age 0 to 1)"
-    if 2 <= age <= 13:
-        return "Gen Alpha (age 2 to 13)"
-    if 14 <= age <= 29:
-        return "Gen Z (age 14 to 29)"
-    if 30 <= age <= 45:
-        return "Millennials (Gen Y) (age 30 to 45)"
-    if 46 <= age <= 61:
-        return "Gen X (age 46 to 61)"
-    if 62 <= age <= 80:
-        return "Baby Boomers (age 62 to 80)"
-    if 81 <= age <= 98:
-        return "Silent Generation (age 81 to 98)"
-    # Anything outside your defined ranges:
-    return "Not Available"
+
 
 
 ages_numeric = df_filtered["उमेर"].apply(to_number)
@@ -73,8 +54,8 @@ else:
     age_median = float(ages_valid.median())
     age_mean = float(ages_valid.mean())
 
-
-age_series = df_filtered["उमेर"].apply(to_number).apply(age_to_generation)
+nepal_election_processor = NepalElectionDataProcessor()
+age_series = df_filtered["उमेर"].apply(to_number).apply(nepal_election_processor.age_to_generation)
 
 # Fixed order you want (kept together)
 order = [
@@ -136,7 +117,7 @@ plt.setp(texts, size=11)
 
 # Title (English). If you switch to Nepali title, add: fontproperties=nepali_font
 plt.title(
-    f"Age Generations\n(2026 {PARTIES[selected_party]['eng_name']} Candidates)\n",
+    f"Age Generations\n(2026 {PARTIES[selected_party]['eng_name']} Candidates - FPTP)\n",
     fontsize=15,
     pad=20,
 )

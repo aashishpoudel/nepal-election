@@ -154,7 +154,7 @@ def build_party_pie_chart(df: pd.DataFrame, party_name_np: str) -> None:
     os.makedirs(VISUALS_DIR, exist_ok=True)
 
     # Build filename
-    filename = f"2026_nepal_election_age_generation_piechart_{eng_name.replace(' ', '_')}.png"
+    filename = f"2026_nepal_election_age_Gen_piechart_plt_{eng_name.replace(' ', '_')}.png"
 
     # Full output path
     out_path = os.path.join(VISUALS_DIR, filename)

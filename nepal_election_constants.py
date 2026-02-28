@@ -1,8 +1,8 @@
 PARTIES ={
-    "राष्ट्रिय स्वतन्त्र पार्टी": {"eng_name": "Rastriya Swatantra Party", "sign": "🔔"},
-    "नेपाली काँग्रेस": {"eng_name": "Nepali Congress", "sign": "🌳"},
-    "नेपाल कम्युनिष्ट पार्टी (एकीकृत मार्क्सवादी लेनिनवादी)": {"eng_name": "CPN UML", "sign": "☀️"},
-    # "नेपाली कम्युनिष्ट पार्टी": {"eng_name": "Nepali Communist Party", "sign": "⭐️"},
+    "राष्ट्रिय स्वतन्त्र पार्टी": {"eng_name": "Rastriya Swatantra Party", "eng_acronym": "RSP", "sign": "🔔"},
+    "नेपाली काँग्रेस": {"eng_name": "Nepali Congress", "eng_acronym": "NC",  "sign": "🌳"},
+    "नेपाल कम्युनिष्ट पार्टी (एकीकृत मार्क्सवादी लेनिनवादी)": {"eng_name": "CPN UML", "eng_acronym": "CPN-UML",  "sign": "☀️"},
+    # "नेपाली कम्युनिष्ट पार्टी": {"eng_name": "Nepali Communist Party", "eng_acronym": "NCP",  "sign": "⭐️"},
     # "राष्ट्रिय प्रजातन्त्र पार्टी": {"eng_name": "Rastriya Prajatantra Party", "sign": "plow"},
     # "जनता समाजवादी पार्टी": {"eng_name": "Janta Samajwadi Party", "sign": "?"},
 }

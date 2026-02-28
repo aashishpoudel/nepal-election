@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 from nepal_election_constants import PARTIES
+from helper_functions import filter_by_parties
 
 # -----------------------------
 # Config
@@ -77,26 +78,19 @@ def normalize_education(value) -> str:
     if "intermediate" in s_low or "10+2" in s_low or "+2" in s_low or "plus 2" in s_low:
         return "Intermediate"
 
-    # SLC / 10
-    if "slc" in s_low or re.search(r"\bclass\s*10\b", s_low) or re.search(r"\b10\b", s_low):
-        # NOTE: This can mistakenly catch other numbers if present.
-        # If your sheet has clean grouped values, this is safe.
-        return "SLC / 10"
-
-    # < 10 Class
-    # If your grouped column literally uses "< 10 Class", map it directly.
+    # < 10 Class  (MOVE THIS UP before SLC / 10)
     if "<" in s_low or "below" in s_low or "under" in s_low or "less than" in s_low:
         return "< 10 Class"
     if "class" in s_low:
-        # try to detect class 1-9
         m = re.search(r"class\s*(\d+)", s_low)
         if m:
-            try:
-                n = int(m.group(1))
-                if 1 <= n <= 9:
-                    return "< 10 Class"
-            except Exception:
-                pass
+            n = int(m.group(1))
+            if 1 <= n <= 9:
+                return "< 10 Class"
+
+    # SLC / 10  (comes AFTER)
+    if "slc" in s_low or re.search(r"\bclass\s*10\b", s_low) or re.search(r"(?<!<)\b10\b", s_low):
+        return "SLC / 10"
 
     # If the value is already one of the canonical labels, keep it
     if s in EDU_ORDER:
@@ -420,6 +414,18 @@ def main() -> None:
     os.makedirs(VISUALS_DIR, exist_ok=True)
 
     df = pd.read_excel(FILE_PATH)
+
+    filtered_output_path = os.path.join(
+        VISUALS_DIR,
+        "2026_Nepal_Election_FPTP_candidates_PARTIES_only.xlsx"
+    )
+
+    df = filter_by_parties(
+        df=df,
+        party_column=PARTY_COL_NAME,
+        parties_dict=PARTIES,
+        output_path=filtered_output_path
+    )
 
     # Safety check: required columns
     for col in [PARTY_COL_NAME, EDU_COL_NAME]:

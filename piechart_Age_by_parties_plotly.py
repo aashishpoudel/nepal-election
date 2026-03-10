@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 
 from nepal_election_constants import PARTIES
 from nepal_election_base import NepalElectionDataProcessor
-from helper_functions.chart_helpers import to_number
+from helper_functions import to_number
 
 # -----------------------------
 # Config
